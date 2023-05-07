@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata: 
+  name: setbased
+  labels:
+    app: nginx
+spec:
+  minReadySeconds: 2
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - nginx 
+          - web
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.23
+          ports:
+            - containerPort: 80        
