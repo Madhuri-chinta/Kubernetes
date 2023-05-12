@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: httpd-rs
+  labels:
+    app: httpd
+spec:
+  minReadySeconds: 2
+  replicas: 3
+  selector:
+    matchLabels:
+      app: httpd
+  template:
+    metadata:
+      labels:
+        app: httpd
+      name: httpd
+    spec:
+      containers:
+        - name: httpd
+          image: httpd
+          ports:
+            - containerPort: 80     
+          livenessProbe:
+            failureThreshold: 1
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            exec:
+              command:
+                - mkdir 
+                - test        
+            readinessProbe:
+              failureThreshold: 1
+              initialDelaySeconds: 1
+              periodSeconds: 10
+              successThreshold: 1
+              exec:
+                command:
+                  - touch
+                  - 1.txt
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-svc
+  labels:
+    app: httpd
+spec:
+  type: NodePort
+  selector:
+    app: httpd
+  ports:
+    - name: httpd-svc
+      nodePort: 30001
+      port: 80
+      protocol: TCP      
