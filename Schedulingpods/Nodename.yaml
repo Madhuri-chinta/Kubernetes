@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename
+  labels:
+    app: jenkins
+    purpose: nodename
+spec:
+  nodeName: ip-172-31-37-228
+  containers:
+    - image: jenkins/jenkins:jdk11
+      name: jenkins
+      ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-svc
+  labels:
+    app: jenkins
+spec:        
+  selector:
+    purpose: nodename
+  ports:
+    - name: jenkins-svc
+      nodePort: 32000
+      port: 8080
+      protocol: TCP
+  type: NodePort      
