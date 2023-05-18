@@ -1,0 +1,25 @@
+---
+apiVersion: v1	
+kind: Pod
+metadata:
+  name: paffinity
+  labels:
+    app: nginx
+spec:
+  affinity:
+    podAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          podAffinityTerm:
+            topologyKey: affinity
+            labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: NotIn
+                  values:
+                    - nginx
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80                  

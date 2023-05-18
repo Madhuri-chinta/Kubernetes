@@ -5,10 +5,10 @@ metadata:
   name: nodename
   labels:
     app: jenkins
-    purpose: nodeselector
+    disktype: nodeselector
 spec:
   nodeSelector:
-    purpose: poc
+    disktype: ssd
   containers:
     - image: jenkins/jenkins:jdk11
       name: jenkins

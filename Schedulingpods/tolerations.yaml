@@ -12,8 +12,7 @@ spec:
       ports:
         - containerPort: 80
   tolerations:
-    - key: purpose
+    - key: key1
       operator: Equal
-      value: testing
-      effect: NoSchedule      
+      value: value1           
   
