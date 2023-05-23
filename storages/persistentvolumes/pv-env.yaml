@@ -1,0 +1,119 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels: 
+    app: nginx
+  name: mystroageclass
+provisioner: kubernetes.io/aws-ebs
+volumeBindingMode: Immediate
+reclaimPolicy: Retain
+parameters:
+  type: gp2
+
+---
+apiVersion: v1	
+kind: Pod
+metadata:
+  name: mysql-pvc
+  labels:
+    app: mysql
+spec:
+  containers:
+    - image: mysql:8
+      name: mysql
+      ports:
+        - containerPort: 3306
+      volumeMounts:
+        - mountPath: var/lib/mysql       
+          name: persistentvolume
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootpassword
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_PASSWORD
+          value: password
+        - name: MYSQL_DATABASE
+          value: database 
+  volumes:
+    - name: persistentvolume
+      persistentVolumeClaim:
+        claimName: pvc-claim
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-claim
+  labels:
+    app: mysql
+spec:
+  accessModes: 
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: mystroageclass
+  
+
+## Installing 'CSI' driver in EKS('Elastic Kubernetes Service'):
+-------------------------------------------------------------
+* create presistent volume with our own storage class, we will install 'CSI' driver in our cluster.
+* Create an IAM policy and attach it the nodes of eks(attach to role).
+  * Role is the policy which we gives the permissions for one AWS service to access another AWS service.
+* Policy to be used
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AttachVolume",
+        "ec2:CreateSnapshot",
+        "ec2:CreateTags",
+        "ec2:CreateVolume",
+        "ec2:DeleteSnapshot",
+        "ec2:DeleteTags",
+        "ec2:DeleteVolume",
+        "ec2:DescribeInstances",
+        "ec2:DescribeSnapshots",
+        "ec2:DescribeTags",
+        "ec2:DescribeVolumes",
+        "ec2:DetachVolume"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+* cretae the policy and attach it
+  * for creating the policy we use IAM service in AWS and  Now give a name to the policy and create the policy
+* Then get the arn of each node using 
+```
+kubectl -n kube-system describe configmap aws-auth
+```
+  and attach the policy to the respected arn of the nodes. 
+* Now we have to attach the policy which we created to the nodes with the arn of respective nodes
+* Search in the roles with the arn of node one after another then select the role 
+* Then select the policy which we created and attach it
+* Do the same for every node in the cluster
+* Now install the CSI driver using 
+```
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"      
+```
+* The above command created pods which are required for CSI
+* Now verify weather they(the pods) were running or not using 
+```
+kubectl get pods -n kube-system
+```
+* After installing CSI driver now create a storage class which we can use it to create volmes
+
+
+  
+
+
+  
+  
+  

@@ -14,7 +14,7 @@ spec:
             matchExpressions:
               - key: app
                 operator: In
-                values:
+                values: 
                   - nginx
           topologyKey: "kubernetes.io/hostname"
   containers:

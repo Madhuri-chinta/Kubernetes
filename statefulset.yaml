@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-stateful
+  labels:
+    app: mysql
+spec:
+  minReadySeconds: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: mysql-svc   
+  template:
+    metadata:
+      name: mysql-pod
+      labels:
+        app: mysql   
+    spec:
+      containers:
+        - image: mysql:8
+          name: mysql
+          ports:
+            - containerPort: 3306 
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-vol  
+      volumes:
+        - name: mysql-vol
+          emptyDir:
+            sizeLimit: 500Mi         
+
+---
+apiVersion: v1	
+kind: Service
+metadata:
+  name: mysql-svc
+  labels:
+    app: mysql
+spec:
+  selector:
+    app: mysql
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: mysql-svc
+      port: 80
+      targetPort: 80
+      protocol: TCP            
