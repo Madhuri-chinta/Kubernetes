@@ -2,5 +2,5 @@
 resources:
   - ../../bases
 
-namespace: qa  
+namePrefix: qa- 
 
