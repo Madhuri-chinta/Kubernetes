@@ -2,6 +2,8 @@
 resources:
   - ../../bases
 
+namespace: uat
+
 images:
 - name: nginx
   newName: httpd  
