@@ -3,7 +3,7 @@ resources:
   - ../../bases
 
 replicas:
-- name: nginx-75c876c4d8
+- name: nginx
   count: 4
 
 
