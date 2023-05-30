@@ -1,6 +1,6 @@
 ---
-bases:
-  - ../..base
+resources:
+  - ../..bases
 
 images:
 - name: nginx
