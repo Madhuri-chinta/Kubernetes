@@ -1,6 +1,6 @@
 ---
 resources:
-  - ../..bases
+  - ../../bases
 
 replicas:
 - name: nginx-75c876c4d8
