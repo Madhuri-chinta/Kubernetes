@@ -9,6 +9,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 ```
+aws configure
 * kubectl installation steps:
 ```
 curl -LO https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
@@ -33,7 +34,7 @@ sudo mv /tmp/eksctl /usr/local/bin
 ```
 * Execute ssh-keygen ssh-keygen
 * Create a file called as cluster.yaml with the following content
-```
+```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
@@ -43,7 +44,7 @@ metadata:
 
 nodeGroups:
   - name: basic
-    instanceType: t2.large
+    instanceType: t2.medium
     desiredCapacity: 2
     volumeSize: 20
     ssh:
@@ -58,4 +59,7 @@ kubectl get pods --all-namespaces
 * To delete the EKS clsuter
 ```
 eksctl delete cluster -f cluster.yaml  
+```
+```
+eksctl delete cluster -f cluster.yaml --wait --disable-nodegroup-eviction
 ```

@@ -1,0 +1,11 @@
+---
+bases:
+  - ../..base
+
+replicas:
+- name: nginx
+  count: 4
+
+
+
+
