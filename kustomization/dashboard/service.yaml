@@ -11,3 +11,4 @@ spec:
   type: LoadBalancer
   ports:
     - name: nginx-svc  
+      
