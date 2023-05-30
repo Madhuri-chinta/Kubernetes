@@ -1,9 +1,9 @@
 ---
 bases:
-  - ../..base
+  - ../..bases
 
 replicas:
-- name: nginx
+- name: nginx-75c876c4d8
   count: 4
 
 
