@@ -1,6 +1,8 @@
 ---
 resources:
   - ../../bases
+  
+namespace: dev
 
 replicas:
 - name: nginx
