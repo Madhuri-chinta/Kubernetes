@@ -50,6 +50,8 @@ spec:
             storage: 1Gi
         storageClassName: mystroageclass
 
+
+# storage class
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
