@@ -50,7 +50,10 @@ nodeGroups:
     ssh:
       allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
 ```
-* Now execute the command eksctl create cluster -f cluster.yaml      
+* Now execute the command 
+```
+eksctl create cluster -f cluster.yaml      
+```
 * After creation execute
 ```
 kubectl get nodes
