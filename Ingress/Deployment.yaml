@@ -119,4 +119,35 @@ spec:
           ports:
             - containerPort: 80  
             
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spc-deploy
+  labels:
+    app: spc
+spec:
+  minReadySeconds: 2
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spc
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: spc-pod
+      labels:
+        app: spc
+    spec:
+      containers:
+        - image: madhurichinta/spc:1.0
+          name: spc
+          ports:
+            - containerPort: 8080  
+            
+                    
                     

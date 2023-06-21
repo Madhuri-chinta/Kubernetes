@@ -38,5 +38,12 @@ spec:
               service:
                 name: catalog-svc
                 port:
-                  number: 80                                                      
+                  number: 80 
+          - path: /spc(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: spc-svc
+                port:
+                  number: 8080                                                                      
   
