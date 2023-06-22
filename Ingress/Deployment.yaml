@@ -148,6 +148,36 @@ spec:
           name: spc
           ports:
             - containerPort: 8080  
+          
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-deploy
+  labels:
+    app: apache
+spec:
+  minReadySeconds: 2
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apache
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: apache-pod
+      labels:
+        app: apache
+    spec:
+      containers:
+        - image: madhurichinta/apache:1.0
+          name: apache
+          ports:
+            - containerPort: 8080  
             
-                    
+               
                     
