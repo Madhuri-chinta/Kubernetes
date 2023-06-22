@@ -1,7 +1,7 @@
 INSTALLATION OF KUBERENETS EKS CLUSTER:
 ----------------------------------------
 * Create a linux instance, install aws cli, create iam credentials
-* aws installation steps:
+* Aws Cli installation steps:
 ```
 sudo apt update
 sudo apt install unzip 
@@ -10,14 +10,20 @@ unzip awscliv2.zip
 sudo ./aws/install
 ```
 aws configure
-* kubectl installation steps:
+* Docker installation script:
+```
+curl -fsSL https://get.docker.com -o install-docker.sh
+sh install-docker.sh --dry-run
+sudo sh install-docker.sh
+``` 
+* Kubectl installation steps:
 ```
 curl -LO https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
 chmod +x ./kubectl
-mv ./kubectl /usr/local/bin 
+sudo mv ./kubectl /usr/local/bin 
 kubectl version --short --client
 ```
-* eksctl installation steps:
+* Eksctl installation steps:
 ```
 # for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
 ARCH=amd64
@@ -32,7 +38,7 @@ tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 
 sudo mv /tmp/eksctl /usr/local/bin
 ```
-* Execute ssh-keygen ssh-keygen
+* Execute ssh-keygen 
 * Create a file called as cluster.yaml with the following content
 ```yaml
 apiVersion: eksctl.io/v1alpha5
