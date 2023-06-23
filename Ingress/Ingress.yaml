@@ -45,5 +45,13 @@ spec:
               service:
                 name: spc-svc
                 port:
-                  number: 8080                                                                      
+                  number: 8080 
+          - path: /apache(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: apache-svc
+                port:
+                  number: 8080                   
+
   
