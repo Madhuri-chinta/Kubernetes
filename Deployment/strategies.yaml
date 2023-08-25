@@ -53,7 +53,7 @@ spec:
     app: nginx
   ports:
     - name: nginx-svc
-      port: 80
+      port: 8080
       protocol: TCP
       targetPort: 80  
       
